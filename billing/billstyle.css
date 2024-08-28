@@ -1,0 +1,11 @@
+*{
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    border: border-box ;
+}
+
+.navbar{
+    height: 60px;
+    color: white;
+    background-color: black;
+}
