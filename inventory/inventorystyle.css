@@ -1,0 +1,11 @@
+*{
+    margin: 0;
+
+}
+
+.navbar{
+    height: 60px;
+    background-color: black;
+    color: white;
+}
+
