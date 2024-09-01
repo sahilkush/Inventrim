@@ -11,8 +11,8 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
 
     // Check if the entered credentials match the hardcoded ones
     if (enteredUsername === hardcodedUsername && enteredPassword === hardcodedPassword) {
-        // Redirect to dashboard.html
-        window.location.href = "dashboard.html";
+        // Redirect to homepage.html
+        window.location.href = "homepage/homepage.html";
     } else {
         // Show an error message
         alert("Invalid username or password. Please try again.");
