@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../styles/inventorystyle.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <h1>Inventrim</h1>
+            </div>
+        </div>
+
+    </header>
+    <main>
+        <div class="main-content">
+            <div class="container">
+    
+                <!-- Add Item Form -->
+                <div class="form-section">
+                  <h2>Add Item to your Inventory</h2>
+                  <form id="addItemForm" action="/add-item" method="POST">
+                    <label for="itemName">Item Name</label>
+                    <input type="text" name="itemName" id="itemName" placeholder="Enter item name" required>
+            
+                    <label for="quantity">Quantity</label>
+                    <input type="number" name="quantity" id="quantity" placeholder="Enter quantity" required>
+            
+                    <label for="costPrice">Cost Price</label>
+                    <input type="number" name="costPrice" id="costPrice" placeholder="Enter cost price" step="0.01" required>
+            
+                    <label for="sellingPrice">Selling Price</label>
+                    <input type="number" name="sellingPrice" id="sellingPrice" placeholder="Enter selling price" step="0.01" required>
+            
+                    <button type="submit">Add Item</button>
+                  </form>
+                </div>
+                <div class="inventory-section">
+                    <h2>Your Inventory</h2>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Item Name</th>
+                          <th>Quantity</th>
+                          <th>Cost Price</th>
+                          <th>Selling Price</th>
+                        </tr>
+                      </thead>
+                      <tbody id="inventoryTableBody">
+                        <!-- Dynamically generated inventory rows will appear here -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+        </div>
+        
+    </main>
+    
+</body>
+</html>
