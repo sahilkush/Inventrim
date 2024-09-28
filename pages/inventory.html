@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="../styles/inventorystyle.css">
 </head>
 <body>
@@ -22,20 +23,20 @@
                 <!-- Add Item Form -->
                 <div class="form-section">
                   <h2>Add Item to your Inventory</h2>
-                  <form id="addItemForm" action="/add-item" method="POST">
+
                     <label for="itemName">Item Name</label>
-                    <input type="text" name="itemName" id="itemName" placeholder="Enter item name" required>
+                    <input class= "inventory-input input-name" type="text" placeholder="Enter item " required>
             
                     <label for="quantity">Quantity</label>
-                    <input type="number" name="quantity" id="quantity" placeholder="Enter quantity" required>
+                    <input class= "inventory-input input-quantity" type="number" placeholder="Enter quantity" required>
             
                     <label for="costPrice">Cost Price</label>
-                    <input type="number" name="costPrice" id="costPrice" placeholder="Enter cost price" step="0.01" required>
+                    <input class= "inventory-input input-cp" type="number" placeholder="Enter cost price" step="0.01" required>
             
                     <label for="sellingPrice">Selling Price</label>
-                    <input type="number" name="sellingPrice" id="sellingPrice" placeholder="Enter selling price" step="0.01" required>
+                    <input class= "inventory-input input-sp" ype="number" placeholder="Enter selling price" step="0.01" required>
             
-                    <button type="submit">Add Item</button>
+                    <button class = "add-item" type="submit">Add Item</button>
                   </form>
                 </div>
                 <div class="inventory-section">
@@ -61,4 +62,5 @@
     </main>
     
 </body>
+<script src="../scripts/inventory.js"></script>
 </html>
