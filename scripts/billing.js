@@ -1,109 +1,83 @@
-import { loadInventoryItems, saveInventoryItems } from './storage.js';
-import { cartItems, addToCart, removeFromCart, calculateTotal } from './cart.js';
+let cartItems = [];
+let itemId = 1;
 
-let inventoryItems = loadInventoryItems();
-
-window.onload = function() {
-    populateItemDropdown();
-    updateCart();
-}
-
-// Populate the dropdown with inventory items
-function populateItemDropdown() {
-    let itemDropdown = document.getElementById('itemDropdown');
-    itemDropdown.innerHTML = ''; // Clear existing items
-
-    inventoryItems.forEach((inventoryItem, index) => {
-        let option = document.createElement('option');
-        option.value = index;
-        option.text = `${inventoryItem.item} (In stock: ${inventoryItem.quantity}) - ₹${inventoryItem.sellingPrice}`;
-        itemDropdown.add(option);
-    });
-}
-
-// Function to filter items in the dropdown
-window.filterItems = function() {
-    let search = document.getElementById('itemSearch').value.toLowerCase();
-    let itemDropdown = document.getElementById('itemDropdown');
-    itemDropdown.innerHTML = '';
-
-    inventoryItems.forEach((inventoryItem, index) => {
-        if (inventoryItem.item.toLowerCase().includes(search)) {
-            let option = document.createElement('option');
-            option.value = index;
-            option.text = `${inventoryItem.item} (In stock: ${inventoryItem.quantity}) - ₹${inventoryItem.sellingPrice}`;
-            itemDropdown.add(option);
-        }
-    });
-}
-
-// Function to add an item to the cart
-window.addToCart = function() {
-    let selectedItemIndex = document.getElementById('itemDropdown').value;
-    let selectedItem = inventoryItems[selectedItemIndex];
-    let quantity = parseInt(document.getElementById('cartQuantity').value);
-
-    if (quantity > selectedItem.quantity) {
-        alert('Not enough stock available.');
+function addToCart() {
+    const selectedItem = document.getElementById('itemDropdown').value;
+    
+    if (selectedItem === "none") {
+        alert("Please select an item!");
         return;
     }
 
-    // Adjust inventory
-    selectedItem.quantity -= quantity;
+    const quantity = 1; // You can extend this to let users input quantity
+    const price = Math.floor(Math.random() * 100) + 10; // Random price, can replace with actual data
 
-    // Add item to the cart
-    addToCart(selectedItem, quantity);
+    // Add item to cart
+    cartItems.push({
+        id: itemId,
+        name: selectedItem,
+        quantity: quantity,
+        price: price,
+        total: price * quantity
+    });
+    itemId++;
 
-    // Save the updated inventory back to local storage
-    saveInventoryItems(inventoryItems);
-
-    // Update the cart and dropdown
-    updateCart();
-    populateItemDropdown();
+    updateCartTable();
 }
 
-// Function to update the cart table
-function updateCart() {
-    let cartTableBody = document.getElementById('cartTableBody');
-    cartTableBody.innerHTML = ''; // Clear existing rows
+function updateCartTable() {
+    const cartTableBody = document.getElementById('cartTableBody');
+    cartTableBody.innerHTML = ''; // Clear the table
 
-    cartItems.forEach((cartItem, index) => {
+    cartItems.forEach((item, index) => {
         let row = `
             <tr>
-                <td>${cartItem.item}</td>
-                <td>${cartItem.quantity}</td>
-                <td>₹${cartItem.price.toFixed(2)}</td>
-                <td>₹${cartItem.total.toFixed(2)}</td>
-                <td><button onclick="removeItemFromCart(${index})">Remove</button></td>
+                <td>${item.id}</td>
+                <td>${item.name}</td>
+                <td>${item.quantity}</td>
+                <td>₹${item.price}</td>
+                <td>₹${item.total}</td>
+                <td><button class="btn btn-danger" onclick="removeCartItem(${index})">Remove</button></td>
             </tr>
         `;
         cartTableBody.innerHTML += row;
     });
-
-    // Update total amount
-    document.getElementById('totalAmount').innerText = calculateTotal().toFixed(2);
 }
 
-// Function to remove an item from the cart
-window.removeItemFromCart = function(index) {
-    removeFromCart(index);
-    updateCart();
+function removeCartItem(index) {
+    cartItems.splice(index, 1); // Remove item from the cart
+    updateCartTable(); // Refresh the cart table
 }
 
-// Function to generate the bill
-window.generateBill = function() {
+function generateBill() {
     if (cartItems.length === 0) {
-        alert('Your cart is empty.');
+        alert("Your cart is empty!");
         return;
     }
 
-    let billDetails = 'Bill Summary:\n';
-    cartItems.forEach(item => {
-        billDetails += `${item.item} - Quantity: ${item.quantity}, Total: ₹${item.total.toFixed(2)}\n`;
+    const billTableBody = document.getElementById('billTableBody');
+    billTableBody.innerHTML = ''; // Clear previous bill
+
+    cartItems.forEach((item) => {
+        let row = `
+            <tr>
+                <td>${item.id}</td>
+                <td>${item.name}</td>
+                <td>${item.quantity}</td>
+                <td>₹${item.price}</td>
+                <td>₹${item.total}</td>
+            </tr>
+        `;
+        billTableBody.innerHTML += row;
     });
 
-    let totalAmount = calculateTotal().toFixed(2);
-    billDetails += `\nTotal Amount: ₹${totalAmount}`;
+    const currentDateTime = new Date().toLocaleString(); // Get current date and time
+    document.getElementById('currentDateTime').innerText = currentDateTime;
 
-    alert(billDetails);
+    document.getElementById('billSection').style.display = 'block'; // Show the bill section
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('.add-to-cart').addEventListener('click', addToCart);
+    document.getElementById('generateBillBtn').addEventListener('click', generateBill);
+});
